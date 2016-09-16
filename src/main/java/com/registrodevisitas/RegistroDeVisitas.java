@@ -98,7 +98,7 @@ public class RegistroDeVisitas extends MobileApplication {
         NavigationDrawer drawer = new NavigationDrawer();
 
         NavigationDrawer.Header header = new NavigationDrawer.Header("Registro de Visitas",
-                "Laboratorios Szama",
+                "Sales Force",
                 new Avatar(21, new Image(RegistroDeVisitas.class.getResourceAsStream("/icon.png"))));
         drawer.setHeader(header);
 
