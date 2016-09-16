@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<View fx:id="visitasSolicitudFecha" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.registrodevisitas.views.SolicitudfechaPresenter">
+   <center>
+      <VBox spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Fecha de la Visita">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER">
+               <children>
+                  <Hyperlink fx:id="linkFecha" text="Hyperlink">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="30.0" top="80.0" />
+         </padding></VBox>
+   </center>
+</View>

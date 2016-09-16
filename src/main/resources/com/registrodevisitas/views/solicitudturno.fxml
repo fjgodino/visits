@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<View fx:id="visitasSolicitudTurno" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.registrodevisitas.views.SolicitudturnoPresenter">
+   <center>
+      <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+          <HBox spacing="15.0">
+               <children>
+                  <Label text="Visita">
+                  <font>
+                     <Font name="System Bold" size="21.0" />
+                  </font></Label>
+                  <RadioButton fx:id="rbTurnoManiana" mnemonicParsing="false" text="Mañana">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tgvTurnoGroup" />
+                     </toggleGroup>
+                  <font>
+                     <Font size="21.0" />
+                  </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rbTurnoTarde" mnemonicParsing="false" text="Tarde" toggleGroup="$tgvTurnoGroup">
+                  <font>
+                     <Font size="21.0" />
+                  </font></RadioButton>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <HBox spacing="15.0">
+               <children>
+               <Label text="Acompañada">
+                  <font>
+                     <Font name="System Bold" size="21.0" />
+                  </font>
+               </Label>
+                  <CheckBox fx:id="cbAcompaniado" mnemonicParsing="false" text="                                " />
+               </children>
+            </HBox>
+         <VBox spacing="30.0">
+            <children>
+               <Label text="Lugar">
+                  <font>
+                     <Font name="System Bold" size="21.0" />
+                  </font>
+               </Label>
+               <RadioButton fx:id="rbHostpital" mnemonicParsing="false" text="Hospital">
+                  <font>
+                     <Font size="21.0" />
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rbConsultorio" mnemonicParsing="false" text="Consultorio">
+                  <font>
+                     <Font size="21.0" />
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rbInstituto" mnemonicParsing="false" text="Instituto">
+                  <font>
+                     <Font size="21.0" />
+                  </font>
+               </RadioButton>
+            </children>
+         </VBox>
+         <padding>
+            <Insets left="30.0" top="80.0" />
+         </padding>
+    </VBox>
+   </center>
+</View>
