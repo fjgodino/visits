@@ -41,12 +41,4 @@ This is the list of the visits:
 
 To see how its works, here you have an video:
 
-https://youtu.be/N8yXIIRvy8s
-
-
-
-
-
-
-
-
+[https://youtu.be/N8yXIIRvy8s](Video in YouTube)
