@@ -5,9 +5,11 @@ To log into the application, you need to use the user DEMO without password.
 
 ![]({{site.baseurl}}/images/I01.png)
 
+![]({{site.baseurl}}//I01.png)
+
 Main Menu. The color is green because the user is off line.
 
-![]({{site.baseurl}}/images/I02.png)
+![]({{site.baseurl}}//images//I02.png)
 
 List of visits. It's empty at this moments.
 
