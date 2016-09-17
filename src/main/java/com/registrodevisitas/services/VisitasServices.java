@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javax.annotation.PostConstruct;
@@ -45,7 +46,7 @@ public class VisitasServices {
 
     @Inject
     UserServices user;
-    
+
     @Inject
     private UserServices userService;
 
@@ -85,31 +86,83 @@ public class VisitasServices {
 
     public void persistirVisita() {
 
-        listaDeVisitas.addVisita(visita.get(), getMode());
+        listaDeVisitas.addVisita(visita.get());
 
-        saveVisita(visita.get());
+        if (userService.isConnected()) {
+
+            saveVisita(visita.get(), "ADD");
+
+        } else {
+
+            persistLocally(getVisitaDBFormat(visita.get()));
+
+            MobileApplication.getInstance().showMessage("Visita Registrada Localmente");
+
+        }
 
     }
 
     public void actualizarVisita() {
 
-        saveVisita(visita.get());
+        listaDeVisitas.removeVisita(visita.get());
+
+        if (userService.isConnected()) {
+
+            if (visita.get().getPersistida().booleanValue()) {
+
+                saveVisita(visita.get(), "UPDATE");
+
+            }
+
+        } else {
+            persistLocally(getVisitaDBFormat(visita.get()));
+
+            MobileApplication.getInstance().showMessage("Visita Actualizada Localmente");
+
+            Platform.runLater(() -> {
+
+                listaDeVisitas.addVisita(visita.get());
+
+            });
+        }
 
     }
 
     public void eliminarVisita() {
 
-        //saveVisita(visita.get());
+        if (userService.isConnected()) {
+
+            if (visita.get().getPersistida().booleanValue()) {
+
+                saveVisita(visita.get(), "DELETE");
+
+            }
+
+        } else {
+
+            try {
+
+                removeLocally(getVisitaDBFormat(visita.get()));
+                MobileApplication.getInstance().showMessage("Visita Eliminada Localmente");
+                listaDeVisitas.removeVisita(visita.get());
+
+            } catch (IOException ex) {
+                MobileApplication.getInstance().showMessage("No se pudo Eliminar");
+                log.log(Level.SEVERE, null, ex);
+
+            }
+
+        }
+
     }
 
-    public void saveVisita(Visita visita) {
+    public void saveVisita(Visita visita, String mode) {
 
         log.info("VisitasServices:saveVisita: BEGIN");
 
         /* ------------------ */
-        /* String de Conexión */
-        /* ------------------ */
-        
+ /* String de Conexión */
+ /* ------------------ */
         try {
 
             ConfiguradorGeneral configGral = configuracion.settingsProperty().get();
@@ -123,38 +176,17 @@ public class VisitasServices {
             log.log(Level.INFO, "VisitasServices:saveVisita: URL" + urlToConnect);
 
             /* ========================================================= */
-            /* Genera JSON visita                                        */
-            /* ========================================================= */
-            
+ /* Genera JSON visita                                        */
+ /* ========================================================= */
             Gson gson = new Gson();
-            VisitaDB visitaDb = new VisitaDB();
-            visitaDb.setAction("A");
-            visitaDb.setMedico(visita.getMedico().getCodigoMedico());
-            visitaDb.setApm(user.getUser().get().getApm());
-            visitaDb.setLugar(visita.getLugarVisita());
-            visitaDb.setFecha_visita(visita.obtenerFechaFormateadaSQL());
-            visitaDb.setTurno(visita.getTurnoVisita());
-            visitaDb.setSupervision((visita.getVisitaAcompanadaSN().booleanValue() ? "S" : ""));
-            visitaDb.setPromocion(visita.getPromocion().getCod_promocion());
-            visitaDb.setCod_causa(visita.getCausa().getCod_causa());
-            visitaDb.setObservacion(visita.getObservacion());
-            visitaDb.setStatus(".");
-            visitaDb.setTipo_visita("M");
-            visitaDb.setUsername(user.getUser().get().getUsername());
-            visitaDb.setuDate(visita.obtenerFechaCreacionFormateadaSQL());
-            visitaDb.setuTime(visita.obtenerHoraCreacionFormateadaSQL());
 
-            if(userService.isConnected())
-            {
-            
-                String jsonRequest = gson.toJson(visitaDb);
+            VisitaDB visitaDb = getVisitaDBFormat(visita);
+
+            String jsonRequest = gson.toJson(visitaDb);
 
             /* ========================================================= */
-            /* create a RestClient to the specific URL                   */
-            /* ========================================================= */
-            
-            
-                
+ /* create a RestClient to the specific URL                   */
+ /* ========================================================= */
             RestClient restClient = RestClient.create()
                     .method("POST")
                     .host(urlToConnect)
@@ -203,13 +235,6 @@ public class VisitasServices {
                 }
 
             });
-            
-            }
-            else
-            {
-                 persistLocally(visitaDb);
-                 MobileApplication.getInstance().showMessage("Visita Registrada Localmente");
-            }
 
         } catch (Exception e) {
 
@@ -221,7 +246,40 @@ public class VisitasServices {
 
     }
 
-    public void persistLocally(VisitaDB visitaDb) {
+    private VisitaDB getVisitaDBFormat(Visita visita) {
+
+        VisitaDB visitaDb = new VisitaDB();
+        visitaDb.setAction("A");
+        visitaDb.setMedico(visita.getMedico().getCodigoMedico());
+        visitaDb.setApm(user.getUser().get().getApm());
+        visitaDb.setLugar(visita.getLugarVisita());
+        visitaDb.setFecha_visita(visita.obtenerFechaFormateadaSQL());
+        visitaDb.setTurno(visita.getTurnoVisita());
+        visitaDb.setSupervision((visita.getVisitaAcompanadaSN().booleanValue() ? "S" : ""));
+        visitaDb.setPromocion(visita.getPromocion().getCod_promocion());
+        visitaDb.setCod_causa(visita.getCausa().getCod_causa());
+        visitaDb.setObservacion(visita.getObservacion());
+        visitaDb.setStatus(".");
+        visitaDb.setTipo_visita("M");
+        visitaDb.setUsername(user.getUser().get().getUsername());
+        visitaDb.setuDate(visita.obtenerFechaCreacionFormateadaSQL());
+        visitaDb.setuTime(visita.obtenerHoraCreacionFormateadaSQL());
+
+        return visitaDb;
+
+    }
+
+    private void removeLocally(VisitaDB visitaDb) throws IOException {
+
+        String fileName = PlatformFactory.getPlatform().getPrivateStorage() + File.separator + "visita_" + visita.get().obtenerHFCreacionFormateadaSQL() + ".json";
+
+        File fileLocal = new File(fileName);
+
+        fileLocal.delete();
+
+    }
+
+    private void persistLocally(VisitaDB visitaDb) {
 
         log.log(Level.INFO, "VisitasServices:persistLocally: BEGIN ");
 

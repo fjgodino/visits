@@ -77,9 +77,14 @@ public class ListaVisitasServices {
         return listaDeVisitas;
     }
 
-    public void addVisita(Visita visita, int modo) {
+    public void addVisita(Visita visita) {
 
         listaDeVisitas.add(visita);
+    }
+    
+    public void removeVisita(Visita visita) {
+
+        listaDeVisitas.remove(visita);
     }
 
     public void iniciarLista() {
