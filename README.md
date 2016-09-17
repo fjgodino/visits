@@ -1,6 +1,10 @@
 # visits
 GluonHD JAVAFX project for Sales Force
 
+To see how its works, here you have an video:
+
+[![ScreenShot](https://github.com/fjgodino/visits/blob/master/images/Visitas_Youtube_Video.png)](https://youtu.be/N8yXIIRvy8s)
+
 To log into the application, you need to use the user DEMO without password.
 
 ![](https://github.com/fjgodino/visits/blob/master/images/I01.png)
@@ -39,7 +43,5 @@ This is the list of the visits:
 
 ![](https://github.com/fjgodino/visits/blob/master/images/I11.png)
 
-To see how its works, here you have an video:
 
-[![ScreenShot](https://github.com/fjgodino/visits/blob/master/images/I01.png)](https://youtu.be/N8yXIIRvy8s)
 
