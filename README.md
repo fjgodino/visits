@@ -41,4 +41,5 @@ This is the list of the visits:
 
 To see how its works, here you have an video:
 
-[https://youtu.be/N8yXIIRvy8s](Video in YouTube)
+[![ScreenShot](https://github.com/fjgodino/visits/blob/master/images/I01.png)](https://youtu.be/N8yXIIRvy8s)
+
